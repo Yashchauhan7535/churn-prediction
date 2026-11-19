@@ -1,0 +1,58 @@
+{
+  "best_model_name": "LogisticRegression",
+  "best_hyperparameters": {
+    "classifier__C": 0.1,
+    "classifier__penalty": "l2"
+  },
+  "best_cv_roc_auc": 0.871541859843173,
+  "validation_metrics": {
+    "val_roc_auc": 0.8728011042629686,
+    "val_f1": 0.7913385826771654,
+    "val_precision": 0.7389705882352942,
+    "val_recall": 0.8516949152542372,
+    "val_accuracy": 0.788
+  },
+  "artifact_path": "models/best_churn_model.joblib",
+  "comparison_table": [
+    {
+      "model": "LogisticRegression",
+      "mean_roc_auc": 0.8713305273703279,
+      "std_roc_auc": 0.009010157934057437,
+      "mean_f1": 0.7921354541664176,
+      "std_f1": 0.007126842429383355,
+      "mean_precision": 0.7517599299210402,
+      "mean_recall": 0.8374744404531638,
+      "mean_accuracy": 0.7928571428571429
+    },
+    {
+      "model": "RandomForest",
+      "mean_roc_auc": 0.8683016950778606,
+      "std_roc_auc": 0.008415504776243067,
+      "mean_f1": 0.7865068111998401,
+      "std_f1": 0.007029499683097122,
+      "mean_precision": 0.7509696093203938,
+      "mean_recall": 0.8265616652850696,
+      "mean_accuracy": 0.7885714285714285
+    },
+    {
+      "model": "GradientBoosting",
+      "mean_roc_auc": 0.8648354145592203,
+      "std_roc_auc": 0.011346715031543882,
+      "mean_f1": 0.7792613525864203,
+      "std_f1": 0.014261047393593823,
+      "mean_precision": 0.7659321211750362,
+      "mean_recall": 0.7938049184857696,
+      "mean_accuracy": 0.788
+    },
+    {
+      "model": "HistGradientBoosting",
+      "mean_roc_auc": 0.8574194400112848,
+      "std_roc_auc": 0.013386702741296054,
+      "mean_f1": 0.776887809790699,
+      "std_f1": 0.010610525858372013,
+      "mean_precision": 0.7493706553261414,
+      "mean_recall": 0.807149304596113,
+      "mean_accuracy": 0.7814285714285714
+    }
+  ]
+}
