@@ -1,68 +1,70 @@
-# Customer Churn Prediction: Production-Ready Data Science Pipeline
+# Customer Churn Prediction: End-to-End Data Science Project
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-v1.5+-orange.svg)](https://scikit-learn.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI Pipeline](https://github.com/actions/starter-workflows/actions/workflows/python-package.yml/badge.svg)](https://github.com)
 
-An end-to-end, modular machine learning system designed to predict customer churn in telecommunications and subscription services. This repository provides data generation, automated preprocessing, feature engineering, multi-model cross-validation, hyperparameter tuning, metric evaluation, and production-ready batch and real-time inference.
+A production-grade machine learning project predicting customer attrition using the Telco Customer Churn benchmark dataset (7,043 customers). It includes data ingestion, feature engineering, multi-model cross-validation, holdout evaluation, interactive web dashboard, and batch inference.
 
 ---
 
-## 📌 Problem Overview
+## 📌 Business Objectives & Solution Architecture
 
-Customer attrition directly impacts monthly recurring revenue (MRR) and customer acquisition cost (CAC) payback periods. Identifying at-risk customers early enables proactive retention campaigns, targeted discounts, and service interventions.
-
-This project delivers:
-1. **Automated Feature Engineering**: Captures contractual commitments, add-on service counts, tenure buckets, and charge ratios.
-2. **Multi-Model Benchmark**: Evaluates Logistic Regression, Random Forest, Gradient Boosting, and HistGradientBoosting across Stratified 5-Fold Cross-Validation.
-3. **Rigorous Evaluation**: Assesses ROC-AUC, PR-AUC, Sensitivity/Recall, Precision, F1-Score, and Brier Score on a clean holdout test set.
-4. **Production Inference Service**: Single-customer risk scoring with actionable retention recommendations, plus high-throughput batch CSV scoring.
+- **Primary Goal**: Detect customer attrition risk before contract termination to trigger retention offers.
+- **Key Metric**: Optimize **ROC-AUC** and **Recall (Sensitivity)** to minimize missed churners (false negatives).
+- **Core Components**:
+  1. **Data Acquisition**: Scripted downloader for Telco Customer Churn data.
+  2. **Feature Engineering**: Automated domain transformations (tenure bucketing, charge ratios, service bundling).
+  3. **Multi-Model Benchmark**: Evaluates Logistic Regression, Random Forest, Gradient Boosting, and HistGradientBoosting across Stratified 5-Fold Cross-Validation.
+  4. **Holdout Evaluation**: ROC curves, PR curves, Confusion Matrix, and feature importances.
+  5. **Inference & Serving**: Single-instance customer scoring, batch CSV scoring, and a Streamlit web app.
 
 ---
 
-## 📂 Project Structure
+## 📂 Project Directory Structure
 
 ```text
 churn-prediction/
-├── .github/
-│   └── workflows/
-│       └── ci.yml               # Automated CI pipeline (lint & tests)
-├── .gitignore                   # Git ignore patterns
-├── README.md                    # Project documentation
-├── requirements.txt             # Project dependencies
+├── .github/workflows/ci.yml       # GitHub Actions CI workflow
+├── .gitignore                     # Git ignore rules
+├── Dockerfile                     # Container deployment specification
+├── Makefile                       # Developer shortcuts (setup, train, eval, test, app)
+├── README.md                      # Project documentation
+├── requirements.txt               # Dependencies
+├── pytest.ini                     # Pytest configuration
+├── app.py                         # Streamlit interactive web dashboard
 ├── data/
-│   ├── generate_data.py         # Synthetic telecom churn dataset generator
-│   ├── raw/                     # Raw dataset storage
-│   └── processed/               # Train, validation, and test splits
+│   ├── download_data.py           # Automated dataset downloader
+│   ├── generate_data.py           # Synthetic dataset generator fallback
+│   ├── raw/                       # Raw customer CSV storage
+│   └── processed/                 # Stratified train, val, test CSV splits
 ├── models/
-│   └── best_churn_model.joblib  # Serialized scikit-learn pipeline
+│   └── best_churn_model.joblib    # Serialized scikit-learn pipeline
 ├── reports/
-│   ├── figures/                 # Diagnostic plots (ROC, PR, Confusion Matrix, Feature Importance)
-│   ├── model_comparison.csv     # Cross-validation comparison table
-│   ├── train_metrics.json       # Training metadata and hyperparameters
-│   └── test_metrics.json        # Test set evaluation metrics
+│   ├── figures/                   # Confusion matrix, ROC curve, PR curve, Feature importance
+│   ├── model_comparison.csv       # Cross-validation comparison table
+│   ├── model_summary.md           # Model performance summary report
+│   ├── train_metrics.json         # Best hyperparameters & validation metrics
+│   └── test_metrics.json          # Test set evaluation results
 ├── src/
 │   ├── __init__.py
-│   ├── data_loader.py           # Data ingestion, schema validation, and splitting
-│   ├── preprocessing.py         # Custom feature engineering & ColumnTransformer
-│   ├── train.py                 # Multi-model CV, tuning, and pipeline serialization
-│   ├── evaluate.py              # Performance evaluation and diagnostic visualizations
-│   ├── predict.py               # Single & batch inference engine
-│   └── eda.py                   # Exploratory data analysis visualization script
+│   ├── data_loader.py             # Data loading, cleaning, and stratified splitting
+│   ├── preprocessing.py           # Custom FeatureEngineer and ColumnTransformer
+│   ├── train.py                   # Multi-model CV, tuning, and pipeline serialization
+│   ├── evaluate.py                # Holdout test set metrics and diagnostic plots
+│   ├── predict.py                 # Single and batch prediction engine
+│   └── eda.py                     # Exploratory data analysis scripts
 └── tests/
     ├── __init__.py
-    ├── test_data.py             # Data loading and preprocessing unit tests
-    └── test_pipeline.py         # Pipeline fitting and inference unit tests
+    ├── test_data.py               # Data loading and preprocessing unit tests
+    └── test_pipeline.py           # Pipeline fitting and inference unit tests
 ```
 
 ---
 
-## 🚀 Quick Start
+## ⚡ Quick Start & Commands
 
-### 1. Prerequisites & Environment Setup
-
-Clone the repository and set up a virtual environment:
+### 1. Environment Setup
 
 ```bash
 git clone <repository_url>
@@ -73,111 +75,51 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Generate Dataset
-
-Generate 5,000 synthetic customer records with realistic churn dynamics:
+### 2. Run with Makefile
 
 ```bash
-python data/generate_data.py --samples 5000 --output data/raw/customer_churn.csv
+make data    # Download dataset
+make train   # Train and cross-validate models
+make eval    # Evaluate holdout test set & generate figures
+make test    # Run automated test suite
+make app     # Launch Streamlit web app
 ```
 
-### 3. Exploratory Data Analysis (EDA)
+### 3. CLI Prediction Examples
 
-Generate exploratory distribution and churn correlation charts:
-
+**Single Customer Inference:**
 ```bash
-python src/eda.py
+python src/predict.py
 ```
-Outputs are saved to `reports/figures/`.
 
-### 4. Model Training & Comparison
-
-Execute multi-model cross-validation, hyperparameter optimization, and serialize the best model:
-
+**Batch CSV Scoring:**
 ```bash
-python src/train.py --data data/raw/customer_churn.csv --output models/best_churn_model.joblib
-```
-
-### 5. Evaluation & Diagnostics
-
-Evaluate on the holdout test set, generating metrics and diagnostic curves:
-
-```bash
-python src/evaluate.py --model models/best_churn_model.joblib --test data/processed/test.csv
-```
-
-Generated plots in `reports/figures/`:
-- `roc_curve.png`: Receiver Operating Characteristic curve.
-- `precision_recall_curve.png`: Precision-Recall curve.
-- `confusion_matrix.png`: Normalized confusion matrix.
-- `feature_importance.png`: Top predictive features.
-
----
-
-## 🔮 Inference & Deployment
-
-### Single-Customer Prediction
-
-Run inference with single customer attributes:
-
-```python
-from src.predict import ChurnPredictor
-
-predictor = ChurnPredictor("models/best_churn_model.joblib")
-
-customer = {
-    "gender": "Female",
-    "SeniorCitizen": 0,
-    "Partner": "No",
-    "Dependents": "No",
-    "tenure": 3,
-    "PhoneService": "Yes",
-    "MultipleLines": "No",
-    "InternetService": "Fiber optic",
-    "OnlineSecurity": "No",
-    "OnlineBackup": "No",
-    "DeviceProtection": "No",
-    "TechSupport": "No",
-    "StreamingTV": "Yes",
-    "StreamingMovies": "Yes",
-    "Contract": "Month-to-month",
-    "PaperlessBilling": "Yes",
-    "PaymentMethod": "Electronic check",
-    "MonthlyCharges": 89.5,
-    "TotalCharges": 268.5,
-}
-
-result = predictor.predict_single(customer)
-print(result)
-# Output:
-# {
-#   "churn_prediction": "Yes",
-#   "churn_probability": 0.8124,
-#   "risk_tier": "High Risk",
-#   "retention_action_recommended": True
-# }
-```
-
-### Batch Scoring via CLI
-
-Score an entire customer portfolio from CSV:
-
-```bash
-python src/predict.py --model models/best_churn_model.joblib --input data/processed/test.csv --output data/scored_customers.csv
+python src/predict.py --input data/processed/test.csv --output data/predictions.csv
 ```
 
 ---
 
-## 🧪 Testing
+## 📊 Benchmark Results (Holdout Test Set)
 
-Run automated unit and integration tests:
+Evaluated on 1,409 holdout customer accounts:
 
-```bash
-pytest -v
-```
+| Metric | Score |
+| :--- | :--- |
+| **ROC-AUC** | **0.8415** |
+| **Recall (Sensitivity)** | **78.88%** (295 / 374 churners identified) |
+| **Precision** | **50.17%** |
+| **F1-Score** | **0.6133** |
+| **Accuracy** | **73.60%** |
+| **Brier Calibration Score** | **0.1677** |
 
 ---
 
-## 📄 License
+## 🐳 Docker Deployment
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Build and launch the containerized application:
+
+```bash
+docker build -t churn-app .
+docker run -p 8501:8501 churn-app
+```
+Open `http://localhost:8501` in your browser.

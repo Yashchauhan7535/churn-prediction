@@ -1,108 +1,108 @@
 {
-  "roc_auc": 0.8643,
-  "pr_auc": 0.8392,
-  "accuracy": 0.782,
-  "precision": 0.7338,
-  "recall": 0.8429,
-  "f1_score": 0.7846,
-  "brier_score": 0.1507,
+  "roc_auc": 0.8415,
+  "pr_auc": 0.6336,
+  "accuracy": 0.736,
+  "precision": 0.5017,
+  "recall": 0.7888,
+  "f1_score": 0.6133,
+  "brier_score": 0.1677,
   "confusion_matrix": [
     [
-      385,
-      144
+      742,
+      293
     ],
     [
-      74,
-      397
+      79,
+      295
     ]
   ],
   "classification_report": {
     "0": {
-      "precision": 0.8387799564270153,
-      "recall": 0.7277882797731569,
-      "f1-score": 0.7793522267206477,
-      "support": 529.0
+      "precision": 0.9037758830694276,
+      "recall": 0.7169082125603865,
+      "f1-score": 0.7995689655172413,
+      "support": 1035.0
     },
     "1": {
-      "precision": 0.7338262476894639,
-      "recall": 0.8428874734607219,
-      "f1-score": 0.7845849802371542,
-      "support": 471.0
+      "precision": 0.5017006802721088,
+      "recall": 0.7887700534759359,
+      "f1-score": 0.6133056133056133,
+      "support": 374.0
     },
-    "accuracy": 0.782,
+    "accuracy": 0.7359829666430092,
     "macro avg": {
-      "precision": 0.7863031020582396,
-      "recall": 0.7853378766169394,
-      "f1-score": 0.781968603478901,
-      "support": 1000.0
+      "precision": 0.7027382816707681,
+      "recall": 0.7528391330181612,
+      "f1-score": 0.7064372894114272,
+      "support": 1409.0
     },
     "weighted avg": {
-      "precision": 0.7893467596116286,
-      "recall": 0.782,
-      "f1-score": 0.7818168536269222,
-      "support": 1000.0
+      "precision": 0.797050456634937,
+      "recall": 0.7359829666430092,
+      "f1-score": 0.750127876995489,
+      "support": 1409.0
     }
   },
   "top_features": [
     {
-      "clean_feature": "is_month_to_month",
-      "importance": 0.7713771307385588
-    },
-    {
-      "clean_feature": "Contract_Two year",
-      "importance": 0.5938763755241262
+      "clean_feature": "MonthlyCharges",
+      "importance": 2.22975961628192
     },
     {
       "clean_feature": "tenure",
-      "importance": 0.5272175986864042
+      "importance": 1.1641005632512638
     },
     {
       "clean_feature": "has_fiber_optic",
-      "importance": 0.5173407669702361
+      "importance": 0.9665700572027945
     },
     {
-      "clean_feature": "Contract_Month-to-month",
-      "importance": 0.3822416693029719
+      "clean_feature": "Contract_Two year",
+      "importance": 0.5843148425039884
     },
     {
-      "clean_feature": "is_automatic_payment",
-      "importance": 0.27020367051088917
+      "clean_feature": "has_internet",
+      "importance": 0.5454746330818723
     },
     {
-      "clean_feature": "InternetService_Fiber optic",
-      "importance": 0.2554343607213549
+      "clean_feature": "services_count",
+      "importance": 0.5446569473540386
     },
     {
-      "clean_feature": "PaymentMethod_Electronic check",
-      "importance": 0.24400242608780273
+      "clean_feature": "is_month_to_month",
+      "importance": 0.4656843472184061
     },
     {
-      "clean_feature": "InternetService_DSL",
-      "importance": 0.2400469356715446
+      "clean_feature": "PhoneService_No",
+      "importance": 0.45328091790320557
+    },
+    {
+      "clean_feature": "MultipleLines_No phone service",
+      "importance": 0.45328091790320557
+    },
+    {
+      "clean_feature": "MultipleLines_Yes",
+      "importance": 0.4287644738158351
     },
     {
       "clean_feature": "tenure_group_48-72m",
-      "importance": 0.22500755742277104
+      "importance": 0.41810641564991663
     },
     {
-      "clean_feature": "Contract_One year",
-      "importance": 0.20984548395450542
+      "clean_feature": "tenure_group_12-24m",
+      "importance": 0.41260750670713947
     },
     {
-      "clean_feature": "tenure_group_0-12m",
-      "importance": 0.2012222204278587
+      "clean_feature": "StreamingTV_Yes",
+      "importance": 0.39032716295881537
     },
     {
-      "clean_feature": "Dependents_Yes",
-      "importance": 0.1694106658798481
+      "clean_feature": "InternetService_Fiber optic",
+      "importance": 0.3896211030424814
     },
     {
-      "clean_feature": "Dependents_No",
-      "importance": 0.16762144361320058
-    },
-    {
-      "clean_feature": "TechSupport_No",
-      "importance": 0.1446012208918534
+      "clean_feature": "StreamingMovies_Yes",
+      "importance": 0.3844103103863505
     }
   ]
 }

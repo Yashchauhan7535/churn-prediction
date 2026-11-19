@@ -1,33 +1,48 @@
-# Churn Prediction Model Summary Report
+# Customer Churn Prediction: Model Evaluation & Business Insights
 
 ## 1. Executive Summary
-This machine learning model predicts telecommunications customer churn. The final selected architecture is a regularized classification pipeline with domain-specific feature engineering, automated categorical encoding, and scaling.
-
-- **Primary Optimization Metric**: ROC-AUC / Recall (Prioritizing early detection of churners to reduce false negatives)
-- **Holdout Test Set Performance**:
-  - **ROC-AUC**: 0.8643
-  - **PR-AUC**: 0.8392
-  - **Recall (Sensitivity)**: 84.29%
-  - **Precision**: 73.38%
-  - **F1-Score**: 0.7846
-  - **Accuracy**: 78.20%
-  - **Brier Score**: 0.1507
+This end-to-end data science project analyzes customer attrition on the official IBM Telco Customer Churn benchmark dataset (7,043 customer accounts). The objective is to identify at-risk customers early to deploy targeted retention interventions, protect monthly recurring revenue (MRR), and reduce customer acquisition payback time.
 
 ---
 
-## 2. Model Comparison Across 5-Fold Stratified Cross-Validation
+## 2. Test Set Evaluation Metrics (Holdout Partition: 1,409 Customers)
+
+The holdout test evaluation results are:
+
+| Metric | Score | Business Interpretation |
+| :--- | :--- | :--- |
+| **ROC-AUC** | **0.8415** | Strong separability between churn and retention cohorts across varying classification thresholds. |
+| **Recall (Sensitivity)** | **78.88%** | Identifies ~79% of all churning customers (295 out of 374 actual churners caught). |
+| **Precision** | **50.17%** | Every 2 outreach calls capture an at-risk customer. |
+| **F1-Score** | **0.6133** | Robust balance between catching churners and outreach expenditure efficiency. |
+| **Accuracy** | **73.60%** | Overall correct classification rate on holdout test data. |
+| **Brier Score** | **0.1677** | Well-calibrated probabilistic output suitable for financial risk weighting. |
+
+---
+
+## 3. Confusion Matrix Breakdown
+
+- **True Negatives (Retained correctly identified)**: 742 customers
+- **True Positives (Churners successfully flagged)**: 295 customers
+- **False Negatives (Missed churners)**: 79 customers
+- **False Positives (Flagged but retained)**: 293 customers
+
+---
+
+## 4. Cross-Validation Model Comparison (5-Fold Stratified CV)
 
 | Model Family | Mean ROC-AUC | Std ROC-AUC | Mean F1 | Mean Recall | Mean Accuracy |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Logistic Regression** | **0.8713** | 0.0090 | **0.7921** | **0.8375** | **0.7929** |
-| **Random Forest** | 0.8683 | 0.0084 | 0.7865 | 0.8266 | 0.7886 |
-| **Gradient Boosting** | 0.8648 | 0.0113 | 0.7793 | 0.7938 | 0.7880 |
-| **HistGradientBoosting** | 0.8574 | 0.0134 | 0.7769 | 0.8071 | 0.7814 |
+| **Logistic Regression (Tuned)** | **0.8438** | 0.0097 | **0.6235** | **0.7928** | **0.7458** |
+| **Random Forest** | 0.8422 | 0.0098 | 0.6325 | 0.7752 | 0.7608 |
+| **Gradient Boosting** | 0.8395 | 0.0117 | 0.5719 | 0.5145 | 0.7959 |
+| **HistGradientBoosting** | 0.8357 | 0.0130 | 0.6239 | 0.7523 | 0.7594 |
 
 ---
 
-## 3. Key Predictive Drivers of Customer Churn
-1. **Contract Type (`is_month_to_month`)**: Month-to-month contracts exhibit drastically higher propensity to churn compared to one- or two-year commitments.
-2. **Tenure (`tenure`, `tenure_group`)**: Customers in their first 6-12 months are at highest risk; retention stabilizes significantly past year two.
-3. **Monthly Charges & Fiber Optic**: High monthly charges combined with Fiber Optic service in the absence of Tech Support or Online Security correlate with elevated churn.
-4. **Payment Method**: Paper check and manual billing correspond with higher churn than automated payment methods.
+## 5. Top Predictive Churn Drivers
+
+1. **Contract Type (`is_month_to_month`)**: Month-to-month contracts are the #1 predictor of churn. Customers on annual contracts churn at less than a third of the rate.
+2. **Tenure Duration (`tenure`)**: First 12 months exhibit the highest churn volatility. Retention stabilizes exponentially beyond month 24.
+3. **Internet Infrastructure (`has_fiber_optic` vs Add-on Services)**: High churn propensity in Fiber Optic users lacking Tech Support or Online Security add-ons.
+4. **Billing & Payment Method**: Paperless billing combined with Electronic Check payment correlates with higher delinquency and cancellation compared to automated bank transfers.

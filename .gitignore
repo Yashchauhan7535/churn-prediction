@@ -48,5 +48,8 @@ Thumbs.db
 .coverage
 htmlcov/
 
+# Output predictions
+data/predictions.csv
+
 # Model artifacts (optional: you may choose to track lightweight models or use Git LFS/DVC)
 # models/*.joblib
